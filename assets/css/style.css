@@ -3,15 +3,9 @@
    Shared stylesheet for all pages.
    ========================================================================== */
 
-@font-face{font-family:'Switzer';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/switzer-400.woff2) format('woff2')}
-@font-face{font-family:'Switzer';font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/switzer-500.woff2) format('woff2')}
-@font-face{font-family:'Switzer';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/switzer-600.woff2) format('woff2')}
-@font-face{font-family:'Switzer';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/switzer-700.woff2) format('woff2')}
-@font-face{font-family:'Switzer';font-style:normal;font-weight:800;font-display:swap;src:url(../fonts/switzer-800.woff2) format('woff2')}
-@font-face{font-family:'Switzer';font-style:normal;font-weight:900;font-display:swap;src:url(../fonts/switzer-900.woff2) format('woff2')}
-@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/instrument-serif-normal.woff2) format('woff2')}
-@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(../fonts/instrument-serif-italic.woff2) format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:300 700;font-display:swap;src:url(../fonts/inter-variable.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(../fonts/playfair-display-normal.woff2) format('woff2')}
+@font-face{font-family:'Lora';font-style:normal;font-weight:400 700;font-display:swap;src:url(../fonts/lora-normal.woff2) format('woff2')}
+@font-face{font-family:'Lora';font-style:italic;font-weight:400 700;font-display:swap;src:url(../fonts/lora-italic.woff2) format('woff2')}
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url(../fonts/jetbrains-mono-variable.woff2) format('woff2')}
 
 :root{
@@ -35,12 +29,12 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
 .lenis.lenis-stopped{overflow:hidden}
 .lenis.lenis-scrolling iframe{pointer-events:none}
-body{background:var(--bg);color:var(--ink);font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:16px;line-height:1.65;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:'Lora','Georgia',serif;font-weight:400;font-size:16px;line-height:1.65;overflow-x:hidden}
 .wrap{max-width:1160px;margin:0 auto;padding:0 40px}
-.serif{font-family:'Switzer','Arial Black',sans-serif}
+.serif{font-family:'Playfair Display','Georgia',serif}
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
 .gold{color:var(--gold)}
-h1,h2,h3{font-family:'Switzer','Arial Black',sans-serif;font-weight:600;line-height:1.02;letter-spacing:-.015em}
+h1,h2,h3{font-family:'Playfair Display','Georgia',serif;font-weight:600;line-height:1.02;letter-spacing:-.015em}
 a{color:inherit}
 img,video{max-width:100%}
 
@@ -84,7 +78,7 @@ main{position:relative;z-index:1}
   100%{text-shadow:none}
 }
 .cover h1.glow-intro{animation:heroGlow 1.4s ease-out}
-.cover h1 em{font-family:'Instrument Serif','Georgia',serif;font-style:italic;font-weight:400;color:var(--gold-hi)}
+.cover h1 em{font-family:'Lora','Georgia',serif;font-style:italic;font-weight:400;color:var(--gold-hi)}
 .cover .lede{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;margin-top:40px;align-items:end}
 .cover .lede p{font-size:19px;color:var(--ink2);max-width:520px}
 .cover .meta{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--mut);text-align:right;line-height:2}
@@ -105,20 +99,20 @@ section{padding:70px 0;border-bottom:1px solid var(--line);position:relative}
 .section-bg::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,var(--bg) 0%,transparent 18%,transparent 82%,var(--bg) 100%)}
 #studio > .wrap{position:relative;z-index:1}
-.pull{font-family:'Switzer',sans-serif;font-weight:600;font-size:34px;line-height:1.15;letter-spacing:-.01em}
-.pull em{font-family:'Instrument Serif','Georgia',serif;font-style:italic;color:var(--gold-hi)}
+.pull{font-family:'Playfair Display',serif;font-weight:600;font-size:34px;line-height:1.15;letter-spacing:-.01em}
+.pull em{font-family:'Lora','Georgia',serif;font-style:italic;color:var(--gold-hi)}
 .edi .body{color:var(--ink2);font-size:16.5px}
 .edi .body p{margin-bottom:16px}
 .edi .body p:first-child{font-size:16.5px}
-.dropcap::first-letter{font-family:'Switzer',sans-serif;font-weight:900;font-size:62px;float:left;line-height:.8;padding:6px 12px 0 0;color:var(--gold)}
+.dropcap::first-letter{font-family:'Playfair Display',serif;font-weight:900;font-size:62px;float:left;line-height:.8;padding:6px 12px 0 0;color:var(--gold)}
 .figures{display:flex;gap:34px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
-.fig .n{font-family:'Switzer',sans-serif;font-weight:900;font-size:30px;color:var(--gold-hi)}
+.fig .n{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;color:var(--gold-hi)}
 .fig .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase;margin-top:4px}
 
 /* ---- 01 approach band ---- */
 .approach{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:50px;padding-top:34px;border-top:1px solid var(--line)}
 .appr .rn{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.05em}
-.appr h4{font-family:'Switzer',sans-serif;font-weight:600;font-size:21px;margin:12px 0 8px}
+.appr h4{font-family:'Playfair Display',serif;font-weight:600;font-size:21px;margin:12px 0 8px}
 .appr p{color:var(--mut);font-size:14.5px;line-height:1.7}
 .appr p em{font-style:italic;color:var(--ink2)}
 
@@ -154,7 +148,7 @@ section{padding:70px 0;border-bottom:1px solid var(--line);position:relative}
 .plate .pl{position:absolute;top:12px;left:12px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--gold);
   background:rgba(11,10,10,.6);border:1px solid var(--line-g);padding:4px 8px;border-radius:2px;z-index:3}
 .plate .cap{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
-.plate .cap .t{font-family:'Switzer',sans-serif;font-weight:600;font-size:18px}
+.plate .cap .t{font-family:'Playfair Display',serif;font-weight:600;font-size:18px}
 .plate .cap .m{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mut);white-space:nowrap}
 .plate .d{color:var(--mut);font-size:13.5px;margin-top:4px}
 .plate .d a{display:block;width:fit-content;margin-top:6px;color:var(--gold-hi);text-decoration:none;border-bottom:1px solid var(--line-g)}
@@ -165,7 +159,7 @@ section{padding:70px 0;border-bottom:1px solid var(--line);position:relative}
 .g4{background:radial-gradient(90% 120% at 25% 85%,rgba(201,162,74,.20),transparent 55%),linear-gradient(150deg,#18140f,#0b0a09)}
 .g5{background:radial-gradient(90% 120% at 75% 80%,rgba(120,110,200,.20),transparent 55%),linear-gradient(150deg,#151320,#0b0a0e)}
 .g6{background:radial-gradient(90% 120% at 50% 50%,rgba(80,150,150,.22),transparent 60%),linear-gradient(150deg,#101617,#0a0c0c)}
-.mono-r{font-family:'Switzer',sans-serif;font-weight:900;font-size:64px;color:rgba(236,231,220,.06);position:absolute;inset:0;display:grid;place-items:center}
+.mono-r{font-family:'Playfair Display',serif;font-weight:900;font-size:64px;color:rgba(236,231,220,.06);position:absolute;inset:0;display:grid;place-items:center}
 .plate .art video,.plate .art img{display:block;width:100%;height:auto;transition:transform .6s ease}
 .plate .art:hover video,.plate .art:hover img{transform:scale(1.035)}
 .plate .art[data-rotate]{cursor:pointer}
@@ -219,14 +213,14 @@ section{padding:70px 0;border-bottom:1px solid var(--line);position:relative}
 @media (prefers-reduced-motion:reduce){.lightbox{transition:none}}
 .feat p{color:var(--ink2);font-size:16.5px;margin-bottom:24px;max-width:460px}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;border-top:1px solid var(--line);padding-top:24px}
-.metric .n{font-family:'Switzer',sans-serif;font-weight:900;font-size:38px;color:var(--gold-hi);line-height:1}
+.metric .n{font-family:'Playfair Display',serif;font-weight:900;font-size:38px;color:var(--gold-hi);line-height:1}
 .metric .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-top:6px}
 
 /* ---- 05 CV ---- */
 .cv .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;padding:16px 0;border-top:1px solid var(--line)}
 .cv .row:first-child{border-top:none}
 .cv .yr{flex:0 0 auto;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold)}
-.cv .role{flex:1 1 auto;min-width:0;font-family:'Switzer',sans-serif;font-weight:600;font-size:20px}
+.cv .role{flex:1 1 auto;min-width:0;font-family:'Playfair Display',serif;font-weight:600;font-size:20px}
 .cv .role .sub{display:block;font-weight:400;font-size:14px;color:var(--mut);margin-top:2px}
 .cv .place{flex:0 0 auto;white-space:nowrap;margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut);text-align:right}
 
@@ -241,8 +235,8 @@ section{padding:70px 0;border-bottom:1px solid var(--line);position:relative}
 /* ---- 07 colophon ---- */
 .colophon{border-bottom:none;padding-bottom:44px}
 .end-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:end}
-.end-grid h2.big{font-family:'Switzer',sans-serif;font-weight:900;font-size:64px;line-height:.98;letter-spacing:-.02em}
-.end-grid h2.big em{font-family:'Instrument Serif','Georgia',serif;font-style:italic;font-weight:400;color:var(--gold-hi)}
+.end-grid h2.big{font-family:'Playfair Display',serif;font-weight:900;font-size:64px;line-height:.98;letter-spacing:-.02em}
+.end-grid h2.big em{font-family:'Lora','Georgia',serif;font-style:italic;font-weight:400;color:var(--gold-hi)}
 .contact-list{font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:2.1;color:var(--ink2)}
 .contact-list .k{color:var(--faint);display:inline-block;min-width:52px}
 .contact-list a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-g)}

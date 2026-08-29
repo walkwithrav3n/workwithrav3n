@@ -11,16 +11,15 @@ index.html      The whole journal: Cover → 01 Studio → 02 Practice → 03 Wo
 assets/
   css/style.css   all styles, incl. responsive breakpoints + reveal animation
   js/main.js      mobile nav, Lenis/GSAP scroll wiring, scrollspy, count-up, back-to-top
-  fonts/          self-hosted Switzer / Instrument Serif / Inter / JetBrains Mono (.woff2)
+  fonts/          self-hosted Playfair Display / Lora / JetBrains Mono (.woff2)
   img/            project stills + favicon.svg
   video/          project motion pieces (muted/autoplay/loop)
 ```
 
-**Fonts**: Switzer for display/headings (a free, self-hostable grotesque from Fontshare, built as an
-open alternative to Söhne / Neue Haas Grotesk), Instrument Serif italic for the gold accent words,
-Inter for body copy, JetBrains Mono for labels/nav/mono details. All self-hosted as `.woff2` files
-rather than loaded from Google Fonts/Fontshare's CDN at runtime, so there's no extra external
-request for type.
+**Fonts**: Playfair Display (roman only) for display/headings, Lora italic for the gold accent
+words (softer, lower-contrast than Playfair's own italic) and for body copy, JetBrains Mono for
+labels/nav/mono details. All free (Google Fonts) and self-hosted as `.woff2` files rather than
+loaded from Google's CDN at runtime, so there's no extra external request for type.
 
 **Scroll**: Lenis (inertia smooth-scroll) + GSAP ScrollTrigger drive the feel, matching that same
 reference build, loaded via CDN (`index.html`, just above `main.js`). Everything in `main.js` checks
