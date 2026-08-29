@@ -11,15 +11,16 @@ index.html      The whole journal: Cover → 01 Studio → 02 Practice → 03 Wo
 assets/
   css/style.css   all styles, incl. responsive breakpoints + reveal animation
   js/main.js      mobile nav, Lenis/GSAP scroll wiring, scrollspy, count-up, back-to-top
-  fonts/          self-hosted Syne / Instrument Serif / Inter / JetBrains Mono (.woff2)
+  fonts/          self-hosted Switzer / Instrument Serif / Inter / JetBrains Mono (.woff2)
   img/            project stills + favicon.svg
   video/          project motion pieces (muted/autoplay/loop)
 ```
 
-**Fonts** match the type system from the reference build (rav3n-next.vercel.app):
-Syne for display/headings, Instrument Serif italic for the gold accent words, Inter for body copy,
-JetBrains Mono for labels/nav/mono details. All self-hosted as variable-font `.woff2` files rather
-than loaded from Google Fonts at runtime, so there's no extra external request for type.
+**Fonts**: Switzer for display/headings (a free, self-hostable grotesque from Fontshare, built as an
+open alternative to Söhne / Neue Haas Grotesk), Instrument Serif italic for the gold accent words,
+Inter for body copy, JetBrains Mono for labels/nav/mono details. All self-hosted as `.woff2` files
+rather than loaded from Google Fonts/Fontshare's CDN at runtime, so there's no extra external
+request for type.
 
 **Scroll**: Lenis (inertia smooth-scroll) + GSAP ScrollTrigger drive the feel, matching that same
 reference build, loaded via CDN (`index.html`, just above `main.js`). Everything in `main.js` checks
