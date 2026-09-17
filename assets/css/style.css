@@ -142,6 +142,8 @@ section{position:relative}
 .wall{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-paper);border:1px solid var(--line-paper);border-radius:16px;overflow:hidden}
 .wall a{background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:30px 14px;transition:background .2s}
 .wall a:hover{background:var(--paper-2)}
+.wall .w-logo{width:32px;height:32px;border-radius:9px;object-fit:cover;margin-bottom:4px;opacity:.9;transition:opacity .2s,transform .2s}
+.wall a:hover .w-logo{opacity:1;transform:translateY(-1px)}
 .wall .w-name{font-weight:800;font-size:18px;letter-spacing:-.01em;color:var(--on-paper-muted);transition:color .2s}
 .wall a:hover .w-name{color:var(--on-paper)}
 .wall .w-tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9b9384}
