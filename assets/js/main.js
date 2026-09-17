@@ -1,27 +1,26 @@
-/* RAV3N — Studio Journal — shared behaviour */
+/* RAV3N — Studio — shared behaviour */
 (function () {
   "use strict";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---- mobile nav toggle ---- */
-  var top = document.querySelector(".top");
-  var toggle = document.querySelector(".nav-toggle");
-  if (top && toggle) {
-    toggle.addEventListener("click", function () {
-      var open = top.classList.toggle("nav-open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  var nav = document.querySelector(".nav");
+  var navToggle = document.querySelector(".navtoggle");
+  if (nav && navToggle) {
+    navToggle.addEventListener("click", function () {
+      var open = nav.classList.toggle("menu-open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
-    top.querySelectorAll(".idx a").forEach(function (a) {
+    nav.querySelectorAll(".nav-links a").forEach(function (a) {
       a.addEventListener("click", function () {
-        top.classList.remove("nav-open");
-        toggle.setAttribute("aria-expanded", "false");
+        nav.classList.remove("menu-open");
+        navToggle.setAttribute("aria-expanded", "false");
       });
     });
   }
 
   /* ---- Lenis smooth scroll + GSAP ScrollTrigger ----
-     Mirrors the stack the reference build (rav3n-next) uses for scroll feel.
      Both libs are optional (loaded via CDN in index.html) — everything
      degrades to plain browser scrolling + a CSS-only reveal if either
      fails to load or the visitor has requested reduced motion. */
@@ -70,127 +69,8 @@
     });
   });
 
-  /* ---- character splitter, used by both the intro type-in and the
-     scroll-triggered section reveals below. Walks arbitrary nested markup
-     (em/span/a/b/i/strong) and wraps every character in its own <span
-     class="ch">, preserving tag structure and word-wrap (spaces stay as
-     plain text). Skips <br> and anything under a [data-count] element,
-     since those numbers already animate on their own (see count-up). ---- */
-  function splitChars(root) {
-    var out = [];
-    (function walk(node) {
-      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
-        if (child.nodeType === 3) {
-          var text = child.textContent;
-          // Whitespace-only text nodes are just HTML source formatting
-          // (the newline/indentation between sibling tags) — skip them
-          // entirely rather than wrapping them in a new <span>. Otherwise
-          // that span becomes a real extra child, which silently breaks
-          // any parent relying on direct-child position, like a 2-column
-          // CSS Grid (e.g. .edi) or a flex row (e.g. .cv .row).
-          if (!text || !text.trim()) return;
-          var frag = document.createDocumentFragment();
-          // Characters are grouped inside a per-word wrapper (display:inline-block)
-          // so each word stays one atomic, unbreakable unit — otherwise every
-          // character becomes its own independent inline-block box and the
-          // browser is free to wrap the line between any two letters instead
-          // of only at real word boundaries.
-          var words = text.split(" ");
-          words.forEach(function (word, wi) {
-            if (word.length) {
-              var wordSpan = document.createElement("span");
-              wordSpan.className = "word";
-              for (var i = 0; i < word.length; i++) {
-                var span = document.createElement("span");
-                span.className = "ch";
-                span.textContent = word[i];
-                wordSpan.appendChild(span);
-                out.push(span);
-              }
-              frag.appendChild(wordSpan);
-            }
-            if (wi < words.length - 1) frag.appendChild(document.createTextNode(" "));
-          });
-          node.replaceChild(frag, child);
-        } else if (
-          child.nodeType === 1 &&
-          child.tagName !== "BR" &&
-          !child.hasAttribute("data-count")
-        ) {
-          walk(child);
-        }
-      });
-    })(root);
-    return out;
-  }
-
-  function typeChars(chars, opts) {
-    opts = opts || {};
-    if (!chars.length) return;
-    if (hasGsap) {
-      gsap.set(chars, { opacity: 0, y: 4 });
-      gsap.to(chars, {
-        opacity: 1,
-        y: 0,
-        duration: 0.22,
-        ease: "power1.out",
-        stagger: opts.stagger || 0.01,
-        delay: opts.delay || 0,
-      });
-    } else {
-      chars.forEach(function (c, i) {
-        c.style.transitionDelay = (opts.delay || 0) + i * (opts.stagger || 0.01) + "s";
-        requestAnimationFrame(function () { c.classList.add("in"); });
-      });
-    }
-  }
-
-  /* ---- hero headline: grows to fill the page, then settles into place ----
-     The headline starts tiny and centered on the viewport, scales up fast
-     until it dominates the screen, then shrinks and migrates back down to
-     its real, normal in-flow position and size in one settling motion.
-     It's the real <h1> the whole time (just transformed), so there's no
-     separate element to keep in sync and no handoff/flash at the end. The
-     headline itself is never hidden or faded — it's on screen from first
-     paint, exactly as authored; the glow is the only thing that animates. */
-  function glowHeroIn(h1) {
-    return new Promise(function (resolve) {
-      h1.classList.add("glow-intro");
-      var done = function () {
-        h1.classList.remove("glow-intro");
-        h1.removeEventListener("animationend", done);
-        resolve();
-      };
-      h1.addEventListener("animationend", done);
-      // Safety net in case the animationend event doesn't fire for any reason.
-      setTimeout(done, 1800);
-    });
-  }
-
-  /* ---- load sequence: glow the headline, then type in the rest of the
-     cover text. Everything under [data-intro] is CSS-hidden by default
-     (see style.css) specifically so there's no flash of static text before
-     this runs; reduced motion / no-JS both have their own escape hatches. */
-  function runIntro() {
-    var h1 = document.getElementById("hero-h1");
-    var introEls = document.querySelectorAll("[data-intro]");
-    if (reduceMotion || !h1) {
-      introEls.forEach(function (el) { el.style.opacity = 1; });
-      return;
-    }
-    glowHeroIn(h1).then(function () {
-      introEls.forEach(function (el, i) {
-        el.style.opacity = 1;
-        typeChars(splitChars(el), { stagger: 0.01, delay: i * 0.15 });
-      });
-    });
-  }
-  var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 1500); })]).then(runIntro);
-
-  /* ---- scroll reveal (sections 01–07): each block fades/rises in, and
-     its text types itself out at the same time, once, the first time it
-     scrolls into view. ---- */
+  /* ---- scroll reveal: each [data-reveal] block fades/rises in once,
+     the first time it scrolls into view. ---- */
   if (hasGsap) {
     gsap.utils.toArray("[data-reveal]").forEach(function (el) {
       ScrollTrigger.create({
@@ -198,8 +78,7 @@
         start: "top 88%",
         once: true,
         onEnter: function () {
-          gsap.fromTo(el, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
-          typeChars(splitChars(el), { stagger: 0.008 });
+          gsap.fromTo(el, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" });
         },
       });
     });
@@ -225,7 +104,7 @@
 
   /* ---- count-up numbers ---- */
   // Any element with data-count="489" counts up to that integer.
-  // The element's existing text supplies the prefix/suffix (+, %, +yrs, etc.)
+  // The element's existing text supplies the prefix/suffix (+, %, etc.)
   // by locating the digits inside it and animating just that run of digits.
   var counters = document.querySelectorAll("[data-count]");
   if (counters.length) {
@@ -268,7 +147,7 @@
   }
 
   /* ---- scrollspy: highlight the nav link for the section in view ---- */
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".idx a[data-nav]"));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a[data-nav]"));
   var navSections = navLinks
     .map(function (a) {
       return { link: a, section: document.getElementById(a.getAttribute("data-nav")) };
@@ -308,7 +187,7 @@
 
   /* ---- case-study lightbox: click, or hover for 5s, opens the before/after
      pair large enough to actually read — same trigger pattern as the
-     multi-shot plates below. */
+     multi-shot cards below. */
   (function () {
     var pair = document.querySelector(".baf-pair");
     if (!pair) return;
@@ -369,6 +248,7 @@
     var audio = new Audio(btn.getAttribute("data-src"));
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
+      e.preventDefault();
       if (audio.paused) {
         audio.play();
         btn.classList.add("playing");
@@ -382,15 +262,11 @@
     });
   });
 
-  /* ---- multi-shot plates: hover cycles through extra shots of the same
+  /* ---- multi-shot cards: hover cycles through extra shots of the same
      work, in the same frame, morphing the frame's height to match each
-     shot's own aspect ratio as it goes (a plate can hold several photos
-     of varying size — the frame just keeps re-fitting whichever one is
-     showing). Marked up as data-rotate='["a.jpg","b.jpg",...]' on the
-     .art element, which already has its first image as the visible one.
-     An optional data-rotate-labels='["Before","After"]' swaps the usual
-     numbered corner counter for a labelled plaque along the bottom edge
-     instead — for a growth/comparison pair rather than a generic gallery. */
+     shot's own aspect ratio as it goes. Marked up as
+     data-rotate='["a.jpg","b.jpg",...]' on the .art element, which already
+     has its first image as the visible one. */
   document.querySelectorAll(".art[data-rotate]").forEach(function (art) {
     var sources;
     try { sources = JSON.parse(art.getAttribute("data-rotate")); } catch (e) { return; }
@@ -398,17 +274,11 @@
     var img = art.querySelector("img");
     if (!img) return;
 
-    var labels = null;
-    var labelsAttr = art.getAttribute("data-rotate-labels");
-    if (labelsAttr) {
-      try { labels = JSON.parse(labelsAttr); } catch (e) { labels = null; }
-    }
-
     var badge = document.createElement("span");
-    badge.className = labels ? "baf" : "mtag";
+    badge.className = "mtag";
     art.appendChild(badge);
     var setBadge = function (i) {
-      badge.textContent = labels ? labels[i] : (i + 1) + " / " + sources.length;
+      badge.textContent = (i + 1) + " / " + sources.length;
     };
     setBadge(0);
 
@@ -467,44 +337,15 @@
         goTo(0);
       }
     });
-    art.addEventListener("click", function () {
+    art.addEventListener("click", function (e) {
       if (reduceMotion) return;
+      e.preventDefault();
       advance();
       startCycle();
     });
   });
 
-  /* ---- hover glow: gold glow, but only after holding hover 2+ seconds ----
-     mouseenter/mouseleave (unlike mouseover/mouseout) don't bubble, so they
-     fire exactly once for the whole element even while the pointer moves
-     between its inner .ch character spans — one continuous hover session,
-     one timer. */
-  if (!reduceMotion) {
-    var GLOW_SELECTOR = [
-      ".bx", ".idx a", ".kick", "h1", "h2", "h3", "h4",
-      ".lede p", ".meta div", ".pull", ".dropcap", ".edi .body p",
-      ".fig .n", ".fig .l", ".appr h4", ".appr p",
-      ".track h3", ".track .sub", ".track .items", ".more-link",
-      ".plate .cap .t", ".plate .cap .m", ".plate .d", ".pl", ".mtag",
-      ".feat p", ".metric .n", ".metric .l",
-      ".cv .yr", ".cv .role", ".cv .place",
-      ".marg .lbl", ".chip",
-      ".end-grid h2.big", ".contact-list div", ".hire",
-      ".foot span", ".foot a",
-    ].join(",");
-    var GLOW_HOLD_MS = 2000;
-    document.querySelectorAll(GLOW_SELECTOR).forEach(function (el) {
-      el.classList.add("glow-ready");
-      var timer = null;
-      el.addEventListener("mouseenter", function () {
-        timer = setTimeout(function () {
-          el.classList.add("glow-on");
-        }, GLOW_HOLD_MS);
-      });
-      el.addEventListener("mouseleave", function () {
-        clearTimeout(timer);
-        el.classList.remove("glow-on");
-      });
-    });
-  }
+  /* ---- footer year ---- */
+  var yr = document.getElementById("yr");
+  if (yr) yr.textContent = new Date().getFullYear();
 })();
